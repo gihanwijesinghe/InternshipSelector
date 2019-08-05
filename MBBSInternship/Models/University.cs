@@ -11,8 +11,8 @@ namespace MBBSInternship.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        [ForeignKey("DistrictId")]
-        public District District { get; set; }
-        public int DistrictId { get; set; }
+        //[ForeignKey("DistrictId")]
+        //public District District { get; set; }
+        //public int DistrictId { get; set; }
     }
 }

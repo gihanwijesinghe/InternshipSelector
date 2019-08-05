@@ -14,6 +14,8 @@ namespace MBBSInternship.Models
 
         public DbSet<Person> Persons { get; set; }
         public DbSet<University> Universities { get; set; }
+        public DbSet<Hospital> Hospitals { get; set; }
+        public DbSet<District> Districts { get; set; }
     }
 
 }
