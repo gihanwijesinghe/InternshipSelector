@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - MBBSInternship</title>
 
+    <link href="@Url.Content("~/css/themes/wui/AwesomeMvc.css")" rel="stylesheet" type="text/css" id="aweStyle" />
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <script src="~/lib/jquery/dist/jquery.js"></script>
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
@@ -14,7 +16,14 @@
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
     </environment>
+    @*@Scripts.Render("~/bundles/jquery")*@
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -33,8 +42,9 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    <li><a asp-area="" asp-controller="Person" asp-action="Index">Persons</a></li>
-                    <li><a asp-area="" asp-controller="Universities" asp-action="Index">University</a></li>
+                    <li><a asp-area="" asp-controller="People" asp-action="Index">Persons</a></li>
+                    <li><a asp-area="" asp-controller="University" asp-action="Index">University</a></li>
+                    <li><a asp-area="" asp-controller="District" asp-action="Index">District</a></li>
                 </ul>
             </div>
         </div>
@@ -50,18 +60,21 @@
         </footer>
     </div>
 
+    <script src="@Url.Content("~/js/AwesomeMvc.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/js/awem.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/js/utils.js")" type="text/javascript"></script>
+
+    @*used in utils.init and sent on all post requests made by awe*@
+    @Html.AntiForgeryToken()
+
+    @*call init after utils.js and validate.js*@
+    @Html.Awe().Init()
+
     <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
-        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
-                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
-                asp-fallback-test="window.jQuery"
-                crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-        </script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"

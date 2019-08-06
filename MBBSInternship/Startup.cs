@@ -33,7 +33,7 @@ namespace MBBSInternship
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            var connection = @"Data Source=CL-GIHANW\SQLEXPRESS;Initial Catalog=Internship;Trusted_Connection=True;";
+            var connection = @"Data Source=CL-GIHANW\SQLEXPRESS;Initial Catalog=InternshipTest;Trusted_Connection=True;";
             services.AddDbContext<InternshipContext>(options => options.UseSqlServer(connection));
 
 

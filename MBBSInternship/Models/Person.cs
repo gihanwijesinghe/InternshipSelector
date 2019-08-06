@@ -14,5 +14,17 @@ namespace MBBSInternship.Models
         [ForeignKey("UniversityId")]
         public University University { get; set; }
         public int UniversityId { get; set; }
+
+        public int Rank { get; set; }
+        public string NIC { get; set; }
+        public Gender Gender { get; set; }
+
+        public ICollection<PersonHospitalRelationship> HospitalChoices { get; set; }
+    }
+
+    public enum Gender
+    {
+        Male = 0,
+        Female = 1
     }
 }

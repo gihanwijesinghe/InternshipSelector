@@ -1,0 +1,39 @@
+﻿@model IEnumerable<MBBSInternship.Models.PersonHospitalRelationship>
+
+@{
+    ViewData["Title"] = "Preferences";
+}
+
+<h2>Preferences</h2>
+
+@(Html.Awe().Grid("GridReord")
+              .Url(Url.Action("MealsGrid", "People"))
+              .Mod(o => o.MovableRows())
+              .Height(300)
+              .Paging(false)
+              .Groupable(false)
+              .Sortable(false)
+              .Columns(
+                  new Column { Bind = "Id", Width = 100 },
+                  new Column { Bind = "HospitalName",  Header = "Hospital", Width = 200 },
+                  new Column { Bind = "DistrictName", Header="District", Width = 200 },
+                  new Column { Bind = "PreferenceNumber", Header = "Preference", Width = 200 },
+                  new Column { Bind = "TotalSlots" }.Mod(o => o.Autohide())))
+<br />
+<button type="button" onclick="getIds()" class="awe-btn">get ids</button>
+<div id="log" class="log"></div>
+
+<script>
+    $(function () {
+        $('#GridReord').on('awedrop', function (e, data) {
+            var row = $(e.target);
+            alert(JSON.stringify(row));
+            $('#log').prepend(row.HospitalName + ' moved from ' + data.previ + ' to ' + row.index() + '<br/>');
+        });
+    });
+
+    function getIds() {
+        var ids = $('#GridReord').find('.awe-row').map(function (i, el) { return $(el).data('k'); }).get();
+        $('#log').html(JSON.stringify(ids));
+    }
+</script>

@@ -16,6 +16,13 @@ namespace MBBSInternship.Models
         public DbSet<University> Universities { get; set; }
         public DbSet<Hospital> Hospitals { get; set; }
         public DbSet<District> Districts { get; set; }
+        public DbSet<PersonHospitalRelationship> PersonHospitalRelationships { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            //modelBuilder.Entity<Transaction>().ToTable("Transaction");
+            //base.OnModelCreating(modelBuilder);
+        }
     }
 
 }

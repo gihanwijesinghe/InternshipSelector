@@ -10,6 +10,7 @@ namespace MBBSInternship.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public int? TotalSlots { get; set; }
 
         [ForeignKey("DistrictId")]
         public District District { get; set; }
