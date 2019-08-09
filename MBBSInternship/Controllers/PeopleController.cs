@@ -46,11 +46,11 @@ namespace MBBSInternship.Controllers
             return View(person);
         }
 
-        public IActionResult MealsGrid(GridParams g, string name)
+        public IActionResult MealsGrid(GridParams g, int id)
         {
-            name = (name ?? string.Empty).ToLower();
+            //name = (name ?? string.Empty).ToLower();
             var query = _context.PersonHospitalRelationships as IQueryable<PersonHospitalRelationship>;
-            query = query.Include(r => r.Hospital);
+            query = query.Where(r => r.PersonId == id).Include(r => r.Hospital);
             var newQuery = query.Include(r => r.Hospital)
                 .Select(r => new PersonHospitalViewModel
                 {
@@ -59,11 +59,8 @@ namespace MBBSInternship.Controllers
                     TotalSlots = r.Hospital.TotalSlots.Value,
                     DistrictName = r.Hospital.District.Name,
                     PreferenceNumber = r.PreferenceNumber
-                });
-            var model = query.Include(r => r.Hospital)
-                             .ToList();
-            //var query = Db.Meals.Where(o => o.Name.ToLower().Contains(name)).AsQueryable();
-            // there's no need to call tolower when using a real db
+                })
+                .OrderBy(r => r.PreferenceNumber);
 
             return Json(new GridModelBuilder<PersonHospitalViewModel>(newQuery, g) { Key = "Id" }.Build());
         }
@@ -79,14 +76,31 @@ namespace MBBSInternship.Controllers
         }
 
         // GET: People/Create
-        public IActionResult Preference()
+        public IActionResult Preference(int id)
         {
             var query = _context.PersonHospitalRelationships as IQueryable<PersonHospitalRelationship>;
-            var model = query.Include(r => r.Hospital)
+            var model = query.Where(r => r.PersonId == id)
+                            .Include(r => r.Hospital)
                              .ToList();
             //ViewData["UniversityId"] = new SelectList(_context.Universities, "Id", "Id");
             //ViewData["Gender"] = new SelectList(Enum.GetNames(typeof(Gender)));
-            return View(model);
+            return View(id);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ReOrderPreferences([FromBody] PreferenceList preferences)
+        {
+            var query = _context.PersonHospitalRelationships as IQueryable<PersonHospitalRelationship>;
+            var count = 0;
+            foreach (var id in preferences.ChoiceIds)
+            {
+                count++;
+                var item = query.Where(r => r.Id == id).FirstOrDefault();
+                item.PreferenceNumber = count;
+                _context.Update(item);
+            }
+            _context.SaveChanges();
+            return Json(new { success = true });
         }
 
         // GET: People/Create

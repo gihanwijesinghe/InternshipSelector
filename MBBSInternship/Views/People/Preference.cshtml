@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MBBSInternship.Models.PersonHospitalRelationship>
+﻿@model int
 
 @{
     ViewData["Title"] = "Preferences";
@@ -7,27 +7,30 @@
 <h2>Preferences</h2>
 
 @(Html.Awe().Grid("GridReord")
-              .Url(Url.Action("MealsGrid", "People"))
+              .Url(Url.Action("MealsGrid", "People", new { id = Model }))
               .Mod(o => o.MovableRows())
-              .Height(300)
+              .Height(600)
               .Paging(false)
               .Groupable(false)
               .Sortable(false)
               .Columns(
-                  new Column { Bind = "Id", Width = 100 },
-                  new Column { Bind = "HospitalName",  Header = "Hospital", Width = 200 },
+                  //new Column { Bind = "Id", Width = 100 },
+                  new Column { Bind = "PreferenceNumber", Header = "Preference", Width = 100, Sort = Sort.Asc },
+                  new Column { Bind = "HospitalName",  Header = "Hospital"},
                   new Column { Bind = "DistrictName", Header="District", Width = 200 },
-                  new Column { Bind = "PreferenceNumber", Header = "Preference", Width = 200 },
-                  new Column { Bind = "TotalSlots" }.Mod(o => o.Autohide())))
+                  new Column { Bind = "TotalSlots", Width = 100 }.Mod(o => o.Autohide())))
 <br />
-<button type="button" onclick="getIds()" class="awe-btn">get ids</button>
-<div id="log" class="log"></div>
+@*<button type="button" onclick="getIds()" class="awe-btn">get ids</button>
+<div id="log" class="log"></div>*@
+<button type="button" onclick="Submit()" class="awe-btn">Submit</button>
+<br />
+<br />
+<a class="awe-btn" href=@Url.Action("UpdateHospitalList", "PersonHospitalRelationship")> Run BackGround</a>
 
 <script>
     $(function () {
         $('#GridReord').on('awedrop', function (e, data) {
             var row = $(e.target);
-            alert(JSON.stringify(row));
             $('#log').prepend(row.HospitalName + ' moved from ' + data.previ + ' to ' + row.index() + '<br/>');
         });
     });
@@ -36,4 +39,33 @@
         var ids = $('#GridReord').find('.awe-row').map(function (i, el) { return $(el).data('k'); }).get();
         $('#log').html(JSON.stringify(ids));
     }
+
+    function Submit() {
+        var ids = $('#GridReord').find('.awe-row').map(function (i, el) { return $(el).data('k'); }).get();
+        var xx = {
+            Name: "ttt"
+        };
+        var ll = JSON.stringify({
+            test: {//missing brackets
+                Name: "ddd"
+            }
+        });
+        var preferenceList = new Object();
+        preferenceList.Name = "hhh";
+        //alert(JSON.stringify(preferenceList));
+        $.ajax({
+            url: '/People/ReOrderPreferences',
+            type: 'POST',
+            data: JSON.stringify({ Name:"sss", ChoiceIds:ids }),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                location.reload();
+                //alert(data.success);
+            },
+            error: function () {
+                alert("error");
+            }
+        });
+    }
+    
 </script>

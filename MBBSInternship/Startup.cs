@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MBBSInternship.Models;
+using MBBSInternship.Utility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -33,7 +34,7 @@ namespace MBBSInternship
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            var connection = @"Data Source=CL-GIHANW\SQLEXPRESS;Initial Catalog=InternshipTest;Trusted_Connection=True;";
+            var connection = AppConstants.GCloudConnectionString;
             services.AddDbContext<InternshipContext>(options => options.UseSqlServer(connection));
 
 

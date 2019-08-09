@@ -4,14 +4,16 @@ using MBBSInternship.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MBBSInternship.Migrations
 {
     [DbContext(typeof(InternshipContext))]
-    partial class InternshipContextModelSnapshot : ModelSnapshot
+    [Migration("20190808062717_SelectedHospitalLog")]
+    partial class SelectedHospitalLog
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,21 +32,6 @@ namespace MBBSInternship.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Districts");
-                });
-
-            modelBuilder.Entity("MBBSInternship.Models.GlobalSettings", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("LogIndex");
-
-                    b.Property<DateTime?>("LogTime");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("GlobalSettings");
                 });
 
             modelBuilder.Entity("MBBSInternship.Models.Hospital", b =>

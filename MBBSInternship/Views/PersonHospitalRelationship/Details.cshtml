@@ -1,0 +1,36 @@
+﻿@model MBBSInternship.Models.PersonHospitalRelationship
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>PersonHospitalRelationship</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PreferenceNumber)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PreferenceNumber)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Person)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Person.Id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Hospital)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Hospital.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

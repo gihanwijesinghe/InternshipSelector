@@ -1,0 +1,59 @@
+﻿@model IEnumerable<MBBSInternship.Models.SelectedHospitalLog>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+<br />
+<br />
+<br />
+
+
+<a class="awe-btn" href=@Url.Action("RunLog", "SelectedHospitalLog")> Run BackGround</a>
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Rank
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LogTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Person)
+            </th>
+            <th>
+                Hospital Name
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Person.Rank)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LogTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Person.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hospital.Name)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

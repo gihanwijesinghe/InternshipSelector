@@ -17,6 +17,8 @@ namespace MBBSInternship.Models
         public DbSet<Hospital> Hospitals { get; set; }
         public DbSet<District> Districts { get; set; }
         public DbSet<PersonHospitalRelationship> PersonHospitalRelationships { get; set; }
+        public DbSet<SelectedHospitalLog> SelectedHospitalLogs { get; set; }
+        public DbSet<GlobalSettings> GlobalSettings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
