@@ -67,7 +67,10 @@ namespace MBBSInternship.Controllers
         // GET: SelectedHospitalLog
         public async Task<IActionResult> Index()
         {
-            var internshipContext = _context.SelectedHospitalLogs.Include(s => s.Hospital).Include(s => s.Person);
+            var lastLog = _context.GlobalSettings.FirstOrDefault().LogIndex;
+            var internshipContext = _context.SelectedHospitalLogs.Where(s => s.LogNumber == lastLog)
+                .Include(s => s.Hospital)
+                .Include(s => s.Person);
             return View(await internshipContext.ToListAsync());
         }
 

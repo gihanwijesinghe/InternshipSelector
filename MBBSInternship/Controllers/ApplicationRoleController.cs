@@ -1,5 +1,6 @@
 ﻿using MBBSInternship.Models;
 using MBBSInternship.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace MBBSInternship.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ApplicationRoleController : Controller
     {
         private readonly RoleManager<ApplicationRole> roleManager;

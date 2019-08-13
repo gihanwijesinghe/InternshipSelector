@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MBBSInternship.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MBBSInternship.Controllers
 {
+    [Authorize(Roles = "Manager")]
     public class UniversityController : Controller
     {
         private readonly InternshipContext _context;
