@@ -49,11 +49,10 @@
                     <li><a asp-area="" asp-controller="SelectedHospitalLog" asp-action="Index">Selection Log</a></li>
                     <li><a href=@Url.Action("Preference", "People", new { id = 1})>Preference</a></li>
                 </ul>
+                @await Html.PartialAsync("_UserHeader")
             </div>
         </div>
     </nav>
-
-    <partial name="_CookieConsentPartial" />
 
     <div class="container body-content">
         @RenderBody()

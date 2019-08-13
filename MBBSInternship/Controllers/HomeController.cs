@@ -5,14 +5,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MBBSInternship.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace MBBSInternship.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
+        private readonly UserManager<ApplicationUser> userManager;
+
+        public HomeController(UserManager<ApplicationUser> userManager)
+        {
+            this.userManager = userManager;
+        }
+
+        [Authorize(Roles = "User")]
         public IActionResult Index()
         {
-            return View();
+            string userName = userManager.GetUserName(User);
+            return View("Index", userName);
         }
 
         public IActionResult About()

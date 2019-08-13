@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MBBSInternship.Models
 {
-    public class InternshipContext : DbContext
+    public class InternshipContext : IdentityDbContext<ApplicationUser, ApplicationRole, string>
     {
         public InternshipContext(DbContextOptions<InternshipContext> options)
             : base(options)
@@ -22,6 +23,7 @@ namespace MBBSInternship.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             //modelBuilder.Entity<Transaction>().ToTable("Transaction");
             //base.OnModelCreating(modelBuilder);
         }
