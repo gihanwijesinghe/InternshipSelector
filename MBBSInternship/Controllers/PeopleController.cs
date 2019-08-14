@@ -8,16 +8,21 @@ using Microsoft.EntityFrameworkCore;
 using MBBSInternship.Models;
 using Omu.AwesomeMvc;
 using MBBSInternship.ViewModels;
+using Microsoft.AspNetCore.Identity;
 
 namespace MBBSInternship.Controllers
 {
     public class PeopleController : Controller
     {
         private readonly InternshipContext _context;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly RoleManager<ApplicationRole> roleManager;
 
-        public PeopleController(InternshipContext context)
+        public PeopleController(InternshipContext context, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
         {
             _context = context;
+            this.userManager = userManager;
+            this.roleManager = roleManager;
         }
 
         // GET: People
@@ -123,6 +128,43 @@ namespace MBBSInternship.Controllers
                 _context.Add(person);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+            }
+            ViewData["UniversityId"] = new SelectList(_context.Universities, "Id", "Id", person.UniversityId);
+            return View(person);
+        }
+
+        // POST: People/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register([Bind("Id,Name,UniversityId,Rank,NIC,Gender")] Person person)
+        {
+            if (ModelState.IsValid)
+            {
+                person.Password = person.Name + "@" + person.Rank;
+                _context.Add(person);
+                var user = new ApplicationUser
+                {
+                    Name = person.Name,
+                    UserName = person.Password,
+                    Email = person.Email
+                };
+                IdentityResult result = await userManager.CreateAsync(user, person.Password);
+                if (result.Succeeded)
+                {
+                    ApplicationRole applicationRole = await roleManager.FindByNameAsync("Intern");
+                    if (applicationRole != null)
+                    {
+                        IdentityResult roleResult = await userManager.AddToRoleAsync(user, applicationRole.Name);
+                        if (roleResult.Succeeded)
+                        {
+                            return RedirectToAction("Index");
+                        }
+                    }
+                }
+                await _context.SaveChangesAsync();
+                //return RedirectToAction(nameof(Index));
             }
             ViewData["UniversityId"] = new SelectList(_context.Universities, "Id", "Id", person.UniversityId);
             return View(person);

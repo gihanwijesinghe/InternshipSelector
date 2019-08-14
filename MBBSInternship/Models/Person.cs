@@ -18,6 +18,8 @@ namespace MBBSInternship.Models
         public int Rank { get; set; }
         public string NIC { get; set; }
         public Gender Gender { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
 
         public ICollection<PersonHospitalRelationship> HospitalChoices { get; set; }
     }
